@@ -9,6 +9,13 @@ jobs:
     uses: ./.github/workflows/create-repo.yml
     with:
       environment: Development
+  deploy-cdk:
+    needs: create-ecr-repo-dev
+    name: Deploy CDK
+    runs-on: self-hosted
+    steps:
+      - name: Update CDK
+        uses: custom-actions/install-cdk@main
   #create-ecr-repo-qa:
   # name: Create QA Repo
   #  uses: ./.github/workflows/create-repo.yml
