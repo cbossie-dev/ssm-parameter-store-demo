@@ -20,4 +20,4 @@ jobs:
     needs: create-ecr-repo-qa
     uses: ./.github/workflows/create-repo.yml
     with:
-      environment: Development        
+      environment: Prod        
