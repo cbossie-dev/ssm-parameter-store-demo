@@ -15,11 +15,15 @@ jobs:
   create-ecr-repo:
     runs-on: self-hosted
     steps:
-      - uses: aws-actions/configure-aws-credentials@v4
+      - name: Checkout
+        uses: actions/checkout@v3   
+      - name: Configure AWS creds
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ inputs.assumed-role }}
           aws-region: ${{ inputs.region }}    
-      - uses: aws-actions/aws-cloudformation-github-deploy@v1
+      - name: Deploy ECR repo
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           repo-name: $REPO_NAME
           assumed-role: $ASSUMED_ROLE
