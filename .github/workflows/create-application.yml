@@ -22,6 +22,7 @@ jobs:
           role-to-assume: arn:aws:iam::654428775930:role/GitHubActionsAssumedRole
           aws-region: us-east-1
       - run: |
+          cd demo-infrastructure-cdk
           cdk deploy --require-approval never \
             --context environmentName=dev \
             --context ecrRepository=dev-app-repo \
