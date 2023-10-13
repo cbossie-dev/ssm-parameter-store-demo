@@ -31,9 +31,7 @@ jobs:
           aws-region: ${{ env.REGION }}
       - name: Deploy ECR repo
         uses: aws-actions/aws-cloudformation-github-deploy@v1
-        with:
-          repo-name: ${{ env.REPO_NAME }}
-          assumed-role: ${{ env.ASSUMED_ROLE }}
+        with:          
           aws-region: ${{ env.REGION }}
           template: ./create-repository-cf/createrepository.yml
           name: ${{ env.STACK_NAME }}
