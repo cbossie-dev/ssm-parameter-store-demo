@@ -9,25 +9,13 @@ jobs:
     uses: ./.github/workflows/create-repo.yml
     with:
       environment: Development
-  deploy-cdk:
-    needs: create-ecr-repo-dev
+  deploy-cdk-dev:
     name: Deploy CDK
-    runs-on: self-hosted
-    steps:
-      - name: Update CDK
-        uses: cbossie-dev/custom-actions/install-cdk@main
-      - name: Configure AWS creds
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: arn:aws:iam::654428775930:role/GitHubActionsAssumedRole
-          aws-region: us-east-1
-      - run: |
-          cd demo-infrastructure-cdk
-          cdk deploy --require-approval never \
-            --context environmentName=dev \
-            --context ecrRepository=dev-app-repo \
-            --context stackPrefix=DemoInfrastructureStack \
-            --context region=us-east-1
+    uses: ./.github/workflows/deploy-infra.yml
+    needs: create-ecr-repo-dev
+    with:
+      environment: Development
+      repo: ${{ jobs.create-ecr-repo-dev.outputs.reponame }}
   #create-ecr-repo-qa:
   # name: Create QA Repo
   #  uses: ./.github/workflows/create-repo.yml
