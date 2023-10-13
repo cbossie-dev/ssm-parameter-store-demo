@@ -1,0 +1,31 @@
+name: Deploy SSM Parameter Store Demo with AppRunner
+on:
+  workflow_dispatch:
+    inputs:
+      env-name:
+        type: string
+        required: true
+env:
+  REPO_NAME: ${{ inputs.env-name }}-app-repo
+  STACK_NAME: ${{ inputs.env-name }}-repo-stack
+  ASSUMED_ROLE: arn:aws:iam::654428775930:role/GitHubActionsAssumedRole
+  REGION: us-east-1
+jobs:
+  create-ecr-repo:
+    runs-on:
+      group: Default
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ inputs.assumed-role }}
+          aws-region: ${{ inputs.region }}    
+      - uses: aws-actions/aws-cloudformation-github-deploy@v1
+        with:
+          repo-name: $REPO_NAME
+          assumed-role: $ASSUMED_ROLE
+          region: $REGION
+          template: ./create-repository-cf/createrepository.yml
+          name: $STACK_NAME
+          parameter-overrides: "RepoName=${{ env.REPO_NAME }}"    
+          no-fail-on-empty-changeset: "1"
+      
