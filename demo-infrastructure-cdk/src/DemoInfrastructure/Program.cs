@@ -19,8 +19,8 @@ namespace DemoInfrastructure
 
             string stackName = $"{stackPrefix}-{environmentPostfix}";
 
-            string account = $"{app.Node.TryGetContext("account")}";
-            string region = $"{app.Node.TryGetContext("region")}";
+            // string account = $"{app.Node.TryGetContext("account")}";
+            // string region = $"{app.Node.TryGetContext("region")}";
             _ = new DemoInfrastructureStack(app, stackName, new DemoInfrastructureStackProps
             {
                 CreateAppRunner = ecrRepositoryName != null,
