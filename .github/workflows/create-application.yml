@@ -9,26 +9,6 @@ jobs:
     uses: ./.github/workflows/create-repo.yml
     with:
       environment: Development
-  build-and-deploy-dotnet:
-    name: Build and Deploy .NET
-    runs-on: self-hosted
-    steps:
-    - name: Configure AWS creds
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: arn:aws:iam::654428775930:role/GitHubActionsAssumedRole
-        aws-region: us-east-1
-    - name: Amazon ECR "Login" Action for GitHub Actions
-      id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v2             
-    - name: Build, tag, and push docker image to Amazon ECR
-      env:
-        REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        REPOSITORY: dev-app-repo
-        IMAGE_TAG: ${{ github.sha }}
-      run: |
-        docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG ./param-web-app/param-web-app/
-        docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
   #create-ecr-repo-qa:
   # name: Create QA Repo
   #  uses: ./.github/workflows/create-repo.yml
