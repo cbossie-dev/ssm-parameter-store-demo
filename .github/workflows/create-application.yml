@@ -5,23 +5,9 @@ permissions:
 on: workflow_dispatch
 jobs:
   create-ecr-repo-dev:
-    runs-on: self-hosted
-    environment: Development
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3   
-      - name: Configure AWS creds
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ vars.ASSUMED_ROLE }}
-          aws-region: ${{ vars.REGION }}
-      - name: Deploy ECR repo
-        uses: aws-actions/aws-cloudformation-github-deploy@v1
-        with:          
-          template: ./create-repository-cf/createrepository.yml
-          name: ${{ vars.APP_ENV }}-repo-stack
-          parameter-overrides: "RepoName=${{ vars.APP_ENV }}-app-repo"    
-          no-fail-on-empty-changeset: "1"
+    uses: ./.github/workflows/create-repo.yml
+    with:
+      environment: Development
   create-ecr-repo-qa:
     runs-on: self-hosted
     environment: QA
@@ -40,4 +26,21 @@ jobs:
           name: ${{ vars.APP_ENV }}-repo-stack
           parameter-overrides: "RepoName=${{ vars.APP_ENV }}-app-repo"    
           no-fail-on-empty-changeset: "1"
-            
+  create-ecr-repo-prod:
+    runs-on: self-hosted
+    environment: Prod
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3   
+      - name: Configure AWS creds
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.ASSUMED_ROLE }}
+          aws-region: ${{ vars.REGION }}
+      - name: Deploy ECR repo
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
+        with:          
+          template: ./create-repository-cf/createrepository.yml
+          name: ${{ vars.APP_ENV }}-repo-stack
+          parameter-overrides: "RepoName=${{ vars.APP_ENV }}-app-repo"    
+          no-fail-on-empty-changeset: "1"            
