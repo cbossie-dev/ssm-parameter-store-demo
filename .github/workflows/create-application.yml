@@ -16,6 +16,17 @@ jobs:
     steps:
       - name: Update CDK
         uses: cbossie-dev/custom-actions/install-cdk@main
+      - name: Configure AWS creds
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::654428775930:role/GitHubActionsAssumedRole
+          aws-region: us-east-1
+      - run: |
+          cdk deploy --require-approval never \
+            --context environmentName=dev \
+            --context ecrRepository=dev-app-repo \
+            --context stackPrefix=DemoInfrastructureStack \
+            --context region=us-east-1
   #create-ecr-repo-qa:
   # name: Create QA Repo
   #  uses: ./.github/workflows/create-repo.yml
