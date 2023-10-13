@@ -8,9 +8,6 @@ on:
       environment:
         required: true
         type: string
-      repo:
-        required: true
-        type: string
 jobs:
   deploy-cdk:
     environment: ${{ inputs.environment }}  
@@ -30,6 +27,6 @@ jobs:
           cd demo-infrastructure-cdk
           cdk deploy --require-approval never \
             --context environmentName=${{ vars.APP_ENV }} \
-            --context ecrRepository=${{ inputs.repo }} \
+            --context ecrRepository=${{ vars.APP_ENV }}-app-repo \
             --context stackPrefix=${{ vars.STACK_PREFIX }} \
             --context region=${{ vars.REGION }}      
