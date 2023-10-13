@@ -9,15 +9,25 @@ jobs:
     uses: ./.github/workflows/create-repo.yml
     with:
       environment: Development
-  create-ecr-repo-qa:
-    name: Create QA Repo
-    uses: ./.github/workflows/create-repo.yml
-    needs: create-ecr-repo-dev
-    with:
-      environment: QA
-  create-ecr-repo-prod:
-    name: Create Prod Repo
-    needs: create-ecr-repo-qa
-    uses: ./.github/workflows/create-repo.yml
-    with:
-      environment: Prod        
+  build-and-deploy-dotnet:
+    name: Build and Deploy .NET
+    runs-on: self-hosted
+    steps:
+    - name: Build .NET Docker Image
+      uses: docker/build-push-actions@v5
+      with:
+        push: false
+        tags: ${{github.run_number}}
+        context: ./param-web-app/param-web-app/
+  #create-ecr-repo-qa:
+  # name: Create QA Repo
+  #  uses: ./.github/workflows/create-repo.yml
+  #  needs: create-ecr-repo-dev
+  #  with:
+  #    environment: QA
+  #create-ecr-repo-prod:
+  #  name: Create Prod Repo
+  #  needs: create-ecr-repo-qa
+  #  uses: ./.github/workflows/create-repo.yml
+  #  with:
+  #    environment: Prod        
