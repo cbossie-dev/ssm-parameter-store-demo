@@ -34,6 +34,6 @@ jobs:
         with:          
           template: ./create-repository-cf/createrepository.yml
           name: ${{ env.STACK_NAME }}
-          parameter-overrides: "RepoName=$REPO_NAME"    
+          parameter-overrides: "RepoName=${{ env.REPO_NAME }}"    
           no-fail-on-empty-changeset: "1"
       
