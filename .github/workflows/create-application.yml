@@ -15,7 +15,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Update CDK
-        uses: custom-actions/install-cdk@main
+        uses: cbossie-dev/custom-actions/install-cdk@main
   #create-ecr-repo-qa:
   # name: Create QA Repo
   #  uses: ./.github/workflows/create-repo.yml
