@@ -3,11 +3,6 @@ permissions:
   id-token: write
   contents: read
 on: workflow_dispatch
-env:
-  REPO_NAME: ${{ inputs.env-name }}-app-repo
-  STACK_NAME: ${{ inputs.env-name }}-repo-stack
-  ASSUMED_ROLE: arn:aws:iam::654428775930:role/GitHubActionsAssumedRole
-  REGION: ${{ inputs.region }}
 jobs:
   create-ecr-repo:
     runs-on: self-hosted
@@ -18,13 +13,13 @@ jobs:
       - name: Configure AWS creds
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ env.ASSUMED_ROLE }}
-          aws-region: ${{ env.REGION }}
+          role-to-assume: ${{ vars.ASSUMED_ROLE }}
+          aws-region: ${{ vars.REGION }}
       - name: Deploy ECR repo
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:          
           template: ./create-repository-cf/createrepository.yml
-          name: ${{ env.APP_ENV }}-repo-stack
-          parameter-overrides: "RepoName=${{ env.APP_ENV }}-app-repo"    
+          name: ${{ vars.APP_ENV }}-repo-stack
+          parameter-overrides: "RepoName=${{ vars.APP_ENV }}-app-repo"    
           no-fail-on-empty-changeset: "1"
       
