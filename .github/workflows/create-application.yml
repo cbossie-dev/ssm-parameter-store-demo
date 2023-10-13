@@ -14,7 +14,7 @@ jobs:
     runs-on: self-hosted
     steps:
     - name: Build .NET Docker Image
-      uses: docker/build-push-actions@v5
+      uses: docker/build-push-action@v5
       with:
         push: false
         tags: ${{github.run_number}}
