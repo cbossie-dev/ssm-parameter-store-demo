@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: A simple stack for creating a private ECR repository
+Parameters:
+  RepoName:
+    Description: The prefix of the environment
+    Type: String
+Resources:
+     EcrRepository:
+      Type: AWS::ECR::Repository
+      Properties:
+        RepositoryName: !Ref RepoName
+Outputs:
+  RepositoryArn:
+    Description: The repository Arn
+    Value: !GetAtt EcrRepository.Arn
+  RepositoryName:
+    Description: The repository name
+    Value: !Ref EcrRepository
+  RepositoryUri:
+    Description: The repository Description
+    Value: !GetAtt EcrRepository.RepositoryUri
+      
