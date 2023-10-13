@@ -6,11 +6,15 @@ on:
         type: string
         required: true
         default: dev
+      region:
+        type: string
+        required: true
+        default: us-east-1
 env:
   REPO_NAME: ${{ inputs.env-name }}-app-repo
   STACK_NAME: ${{ inputs.env-name }}-repo-stack
   ASSUMED_ROLE: arn:aws:iam::654428775930:role/GitHubActionsAssumedRole
-  REGION: us-east-1
+  REGION: ${{ inputs.region }}
 jobs:
   create-ecr-repo:
     runs-on: self-hosted
@@ -30,6 +34,6 @@ jobs:
           aws-region: $REGION
           template: ./create-repository-cf/createrepository.yml
           name: $STACK_NAME
-          parameter-overrides: "RepoName=${{ env.REPO_NAME }}"    
+          parameter-overrides: "RepoName=$REPO_NAME"    
           no-fail-on-empty-changeset: "1"
       
