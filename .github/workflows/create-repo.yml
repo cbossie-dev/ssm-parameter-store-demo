@@ -8,10 +8,6 @@ on:
       environment:
         required: true
         type: string
-    outputs:
-      reponame: 
-        description: The repo name
-        value: ${{ vars.APP_ENV }}-app-repo
 jobs:
   deploy-template:
     environment: ${{ inputs.environment }}
