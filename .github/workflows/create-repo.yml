@@ -1,0 +1,42 @@
+name: CloudFormation to Create Repo
+permissions:
+  id-token: write
+  contents: read
+on:
+  workflow_call:
+    inputs:
+      repo-name:
+        required: true
+        type: string
+      assumed-role:
+        required: true
+        type: string
+      region:      
+        required: true
+        type: string
+      cf-template:
+        required: true
+        type: string
+      stack-name:
+        required: true
+        type: string
+jobs:
+  deploy-template:
+    runs-on:
+      group: Default
+    name: DeployEcrTemplate
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ inputs.assumed-role }}
+          aws-region: ${{ inputs.region }}
+      - uses: aws-actions/aws-cloudformation-github-deploy@v1
+        with:
+          name: ${{ inputs.stack-name }}
+          template: ${{ inputs.cf-template }}
+          parameter-overrides: "RepoName=${{ inputs.repo-name }}"       
+          no-fail-on-empty-changeset: "1"
+          
+
+   
+          
