@@ -9,15 +9,22 @@ jobs:
     uses: ./.github/workflows/create-repo.yml
     with:
       environment: Development
-  create-ecr-repo-qa:
-    name: Create QA Repo
-    uses: ./.github/workflows/create-repo.yml
+  deploy-cdk:
     needs: create-ecr-repo-dev
-    with:
-      environment: QA
-  create-ecr-repo-prod:
-    name: Create Prod Repo
-    needs: create-ecr-repo-qa
-    uses: ./.github/workflows/create-repo.yml
-    with:
-      environment: Prod        
+    name: Deploy CDK
+    runs-on: self-hosted
+    steps:
+      - name: Update CDK
+        uses: cbossie-dev/custom-actions/install-cdk@main
+  #create-ecr-repo-qa:
+  # name: Create QA Repo
+  #  uses: ./.github/workflows/create-repo.yml
+  #  needs: create-ecr-repo-dev
+  #  with:
+  #    environment: QA
+  #create-ecr-repo-prod:
+  #  name: Create Prod Repo
+  #  needs: create-ecr-repo-qa
+  #  uses: ./.github/workflows/create-repo.yml
+  #  with:
+  #    environment: Prod        
