@@ -5,6 +5,7 @@ on:
       env-name:
         type: string
         required: true
+        default: dev
 env:
   REPO_NAME: ${{ inputs.env-name }}-app-repo
   STACK_NAME: ${{ inputs.env-name }}-repo-stack
@@ -22,7 +23,7 @@ jobs:
         with:
           repo-name: $REPO_NAME
           assumed-role: $ASSUMED_ROLE
-          region: $REGION
+          aws-region: $REGION
           template: ./create-repository-cf/createrepository.yml
           name: $STACK_NAME
           parameter-overrides: "RepoName=${{ env.REPO_NAME }}"    
