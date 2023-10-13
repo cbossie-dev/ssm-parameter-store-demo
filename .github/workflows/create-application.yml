@@ -10,21 +10,35 @@ jobs:
     with:
       environment: Development
   deploy-cdk-dev:
-    name: Deploy CDK
+    name: Deploy CDK Dev
     uses: ./.github/workflows/deploy-infra.yml
     needs: create-ecr-repo-dev
     with:
       environment: Development
       repo: ${{ needs.create-ecr-repo-dev.outputs.reponame }}
-  #create-ecr-repo-qa:
-  # name: Create QA Repo
-  #  uses: ./.github/workflows/create-repo.yml
-  #  needs: create-ecr-repo-dev
-  #  with:
-  #    environment: QA
-  #create-ecr-repo-prod:
-  #  name: Create Prod Repo
-  #  needs: create-ecr-repo-qa
-  #  uses: ./.github/workflows/create-repo.yml
-  #  with:
-  #    environment: Prod        
+  create-ecr-repo-qa:
+   name: Create QA Repo
+   uses: ./.github/workflows/create-repo.yml
+   needs: deploy-cdk-dev
+   with:
+     environment: QA
+  deploy-cdk-qa:
+    name: Deploy CDK QA
+    uses: ./.github/workflows/deploy-infra.yml
+    needs: create-ecr-repo-qa
+    with:
+      environment: QA
+      repo: ${{ needs.deploy-cdk-qa.outputs.reponame }}  
+  create-ecr-repo-prod:
+    name: Create Prod Repo
+    needs: deploy-cdk-qa
+    uses: ./.github/workflows/create-repo.yml
+    with:
+      environment: Prod        
+  deploy-cdk-prod:
+    name: Deploy CDK Prod
+    uses: ./.github/workflows/deploy-infra.yml
+    needs: create-ecr-repo-prod
+    with:
+      environment: Prod
+      repo: ${{ needs.deploy-cdk-qa.outputs.reponame }}        
