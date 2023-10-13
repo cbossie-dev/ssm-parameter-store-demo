@@ -15,7 +15,7 @@ jobs:
     needs: create-ecr-repo-dev
     with:
       environment: Development
-      repo: ${{ steps.create-ecr-repo-dev.outputs.reponame }}
+      repo: ${{ needs.create-ecr-repo-dev.outputs.reponame }}
   #create-ecr-repo-qa:
   # name: Create QA Repo
   #  uses: ./.github/workflows/create-repo.yml
