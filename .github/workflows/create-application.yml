@@ -2,17 +2,7 @@ name: Deploy SSM Parameter Store Demo with AppRunner
 permissions:
   id-token: write
   contents: read
-on:
-  workflow_dispatch:
-    inputs:
-      env-name:
-        type: string
-        required: true
-        default: dev
-      region:
-        type: string
-        required: true
-        default: us-east-1
+on: workflow_dispatch
 env:
   REPO_NAME: ${{ inputs.env-name }}-app-repo
   STACK_NAME: ${{ inputs.env-name }}-repo-stack
@@ -21,6 +11,7 @@ env:
 jobs:
   create-ecr-repo:
     runs-on: self-hosted
+    environment: Development
     steps:
       - name: Checkout
         uses: actions/checkout@v3   
@@ -33,7 +24,7 @@ jobs:
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:          
           template: ./create-repository-cf/createrepository.yml
-          name: ${{ env.STACK_NAME }}
-          parameter-overrides: "RepoName=${{ env.REPO_NAME }}"    
+          name: ${{ env.APP_ENV }}-repo-stack
+          parameter-overrides: "RepoName=${{ env.APP_ENV }}-app-repo"    
           no-fail-on-empty-changeset: "1"
       
