@@ -1,4 +1,4 @@
-name: Deploy SSM Parameter Store Demo with AppRunner
+name: Deploy Containerized .NET APP
 permissions:
   id-token: write
   contents: read
