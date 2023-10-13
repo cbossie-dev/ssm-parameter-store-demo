@@ -5,38 +5,29 @@ permissions:
 on:
   workflow_call:
     inputs:
-      repo-name:
-        required: true
-        type: string
-      assumed-role:
-        required: true
-        type: string
-      region:      
-        required: true
-        type: string
-      cf-template:
-        required: true
-        type: string
-      stack-name:
+      environment:
         required: true
         type: string
 jobs:
   deploy-template:
-    runs-on:
-      group: Default
+    environment: ${{ inputs.environment }}
+    runs-on: self-hosted
     name: DeployEcrTemplate
     steps:
-      - uses: aws-actions/configure-aws-credentials@v4
+      - name: Checkout
+        uses: actions/checkout@v3   
+      - name: Configure AWS creds
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ inputs.assumed-role }}
-          aws-region: ${{ inputs.region }}
-      - uses: aws-actions/aws-cloudformation-github-deploy@v1
-        with:
-          name: ${{ inputs.stack-name }}
-          template: ${{ inputs.cf-template }}
-          parameter-overrides: "RepoName=${{ inputs.repo-name }}"       
-          no-fail-on-empty-changeset: "1"
-          
+          role-to-assume: ${{ vars.ASSUMED_ROLE }}
+          aws-region: ${{ vars.REGION }}
+      - name: Deploy ECR repo
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
+        with:          
+          template: ./create-repository-cf/createrepository.yml
+          name: ${{ vars.APP_ENV }}-repo-stack
+          parameter-overrides: "RepoName=${{ vars.APP_ENV }}-app-repo"    
+          no-fail-on-empty-changeset: "1"    
 
    
           
