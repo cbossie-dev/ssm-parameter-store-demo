@@ -20,8 +20,8 @@ jobs:
       - name: Configure AWS creds
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ inputs.assumed-role }}
-          aws-region: ${{ inputs.region }}    
+          role-to-assume: $ASSUMED_ROLE
+          aws-region: $REGION    
       - name: Deploy ECR repo
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
