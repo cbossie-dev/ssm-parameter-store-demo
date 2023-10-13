@@ -11,9 +11,6 @@ on:
       repo:
         required: true
         type: string
-      stack-prefix:        
-        required: true
-        type: string      
 jobs:
   deploy-cdk:
     environment: ${{ inputs.environment }}  
