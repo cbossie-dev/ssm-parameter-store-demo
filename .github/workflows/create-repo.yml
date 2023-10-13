@@ -1,0 +1,32 @@
+name: CloudFormation to Create Repo
+permissions:
+  id-token: write
+  contents: read
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+jobs:
+  deploy-template:
+    environment: ${{ inputs.environment }}
+    runs-on: self-hosted
+    name: DeployEcrTemplate
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3   
+      - name: Configure AWS creds
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.ASSUMED_ROLE }}
+          aws-region: ${{ vars.REGION }}
+      - name: Deploy ECR repo
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
+        with:          
+          template: ./create-repository-cf/createrepository.yml
+          name: ${{ vars.APP_ENV }}-repo-stack
+          parameter-overrides: "RepoName=${{ vars.APP_ENV }}-app-repo"    
+          no-fail-on-empty-changeset: "1"    
+   
+          
