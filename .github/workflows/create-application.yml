@@ -24,16 +24,16 @@ jobs:
       - name: Configure AWS creds
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: $ASSUMED_ROLE
-          aws-region: $REGION    
+          role-to-assume: ${{ env.ASSUMED_ROLE }}
+          aws-region: ${{ env.REGION }}
       - name: Deploy ECR repo
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           repo-name: $REPO_NAME
-          assumed-role: $ASSUMED_ROLE
-          aws-region: $REGION
+          assumed-role: ${{ env.ASSUMED_ROLE }}
+          aws-region: ${{ env.REGION }}
           template: ./create-repository-cf/createrepository.yml
-          name: $STACK_NAME
+          name: ${{ env.STACK_NAME }}
           parameter-overrides: "RepoName=$REPO_NAME"    
           no-fail-on-empty-changeset: "1"
       
