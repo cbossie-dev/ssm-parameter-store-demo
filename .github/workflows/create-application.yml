@@ -12,7 +12,7 @@ env:
   REGION: us-east-1
 jobs:
   create-ecr-repo:
-    runs-on: [self-hosted,Default]
+    runs-on: self-hosted
     steps:
       - uses: aws-actions/configure-aws-credentials@v4
         with:
