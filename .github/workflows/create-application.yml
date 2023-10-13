@@ -13,12 +13,23 @@ jobs:
     name: Build and Deploy .NET
     runs-on: self-hosted
     steps:
-    - name: Build .NET Docker Image
-      uses: docker/build-push-action@v5
+    - name: Configure AWS creds
+      uses: aws-actions/configure-aws-credentials@v4
       with:
-        push: false
-        tags: ${{github.run_number}}
-        context: ./param-web-app/param-web-app/
+        role-to-assume: arn:aws:iam::654428775930:role/GitHubActionsAssumedRole
+        aws-region: us-east-1
+    - name: Amazon ECR "Login" Action for GitHub Actions
+      # You may pin to the exact commit or the version.
+      # uses: aws-actions/amazon-ecr-login@062b18b96a7aff071d4dc91bc00c4c1a7945b076
+      uses: aws-actions/amazon-ecr-login@v2             
+    - name: Build, tag, and push docker image to Amazon ECR
+      env:
+        REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        REPOSITORY: dev-app-repo
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG ./param-web-app/param-web-app/
+        docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
   #create-ecr-repo-qa:
   # name: Create QA Repo
   #  uses: ./.github/workflows/create-repo.yml
