@@ -12,12 +12,12 @@ jobs:
   create-ecr-repo-qa:
    name: Create QA Repo
    uses: ./.github/workflows/create-repo.yml
-   needs: deploy-cdk-dev
+   needs: create-ecr-repo-dev
    with:
      environment: QA
   create-ecr-repo-prod:
     name: Create Prod Repo
-    needs: deploy-cdk-qa
+    needs: create-ecr-repo-qa
     uses: ./.github/workflows/create-repo.yml
     with:
       environment: Prod       
