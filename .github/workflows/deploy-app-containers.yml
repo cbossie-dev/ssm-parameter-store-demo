@@ -2,7 +2,9 @@ name: Deploy Containerized .NET APP
 permissions:
   id-token: write
   contents: read
-on: workflow_dispatch
+on:
+  push:
+    branches: ['main']
 jobs:
   create-ecr-repo-dev:
     name: Create Development Repo
