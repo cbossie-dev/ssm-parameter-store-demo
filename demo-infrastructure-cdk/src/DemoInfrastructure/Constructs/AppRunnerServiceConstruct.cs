@@ -48,7 +48,13 @@ public class AppRunnerServiceConstruct : DemoConstructBase
                 new PolicyStatement(new PolicyStatementProps
                     {
                         Sid = "Repo",
-                        Actions = new[] { "ecr:BatchCheckLayerAvailability", "ecr:BatchGetImage", "ecr:GetDownloadUrlForLayer", "ecr:DescribeImages" },
+                        Actions = new[] 
+                        { 
+                            "ecr:BatchCheckLayerAvailability", 
+                            "ecr:BatchGetImage", 
+                            "ecr:GetDownloadUrlForLayer", 
+                            "ecr:DescribeImages" 
+                        },
                         Resources = new[] { ecrRepository.RepositoryArn },
                         Effect = Effect.ALLOW
                     })
@@ -68,7 +74,8 @@ public class AppRunnerServiceConstruct : DemoConstructBase
                 ImageConfiguration = new ImageConfiguration
                 {
                     Port = 8080
-                }
+                },
+                TagOrDigest  = "latest"
             })
         });
 
@@ -90,8 +97,15 @@ public class AppRunnerServiceConstruct : DemoConstructBase
         {
             Sid = "SsmStatementPath",
             Effect = Effect.ALLOW,
-            Resources = new[] { $"arn:aws:ssm:{Aws.REGION}:{Aws.ACCOUNT_ID}:parameter/{props.ParameterPathPrefix}*" },
-            Actions = new[] { "ssm:GetParametersByPath", "ssm:GetParameter" }
+            Resources = new[] 
+            {
+                 $"arn:aws:ssm:{Aws.REGION}:{Aws.ACCOUNT_ID}:parameter/{props.ParameterPathPrefix}*" 
+            },
+            Actions = new[] 
+            { 
+                "ssm:GetParametersByPath", 
+                "ssm:GetParameter" 
+            }
         }));
 
         // Add Secrets to instance role
@@ -100,7 +114,11 @@ public class AppRunnerServiceConstruct : DemoConstructBase
             Sid = "SecretsStatement",
             Effect = Effect.ALLOW,
             Resources = props.Secrets.Select(a => a.SecretArn).ToArray(),
-            Actions = new[] { "secretsmanager:GetSecretValue", "secretsmanager:DescribeSecret" }
+            Actions = new[] 
+            { 
+                "secretsmanager:GetSecretValue", 
+                "secretsmanager:DescribeSecret" 
+            }
         }));
 
     }
