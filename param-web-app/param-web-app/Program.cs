@@ -23,8 +23,7 @@ builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
 DemoConfiguration demoConfig = new();
 builder.Configuration.Bind("DemoConfig", demoConfig);
 
-// If you are running this in AppRunner, the environmet will supplied via environment variable.
-// Everything else is 
+// If you are running this in AppRunner, the environment will supplied via environment variable.
 var envName = Environment.GetEnvironmentVariable("ENVIRONMENT_NAME");
 if (!string.IsNullOrEmpty(envName))
 {
