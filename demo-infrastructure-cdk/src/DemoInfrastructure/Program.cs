@@ -19,31 +19,31 @@ namespace DemoInfrastructure
 
             string stackName = $"{stackPrefix}-{environmentPostfix}";
 
-            string account = $"{app.Node.TryGetContext("account")}";
-            string region = $"{app.Node.TryGetContext("region")}";
+            // string account = $"{app.Node.TryGetContext("account")}";
+            // string region = $"{app.Node.TryGetContext("region")}";
             _ = new DemoInfrastructureStack(app, stackName, new DemoInfrastructureStackProps
             {
                 CreateAppRunner = ecrRepositoryName != null,
                 EcrRepository = ecrRepositoryName,
                 StackName = stackName,
                 EnvironmentPostfix = environmentPostfix,
-                Env = MakeEnv(account, region)
+                //Env = MakeEnv(account, region)
             });
             app.Synth();
         }
 
 
-        private static Amazon.CDK.Environment MakeEnv(string account = null, string region = null)
-        {
-            return new Amazon.CDK.Environment
-            {
-                Account = account ??
-                    System.Environment.GetEnvironmentVariable("CDK_DEPLOY_ACCOUNT") ??
-                    System.Environment.GetEnvironmentVariable("CDK_DEFAULT_ACCOUNT"),
-                Region = region ??
-                    System.Environment.GetEnvironmentVariable("CDK_DEPLOY_REGION") ??
-                    System.Environment.GetEnvironmentVariable("CDK_DEFAULT_REGION")
-            };
-        }
+        // private static Amazon.CDK.Environment MakeEnv(string account = null, string region = null)
+        // {
+        //     return new Amazon.CDK.Environment
+        //     {
+        //         Account = account ??
+        //             System.Environment.GetEnvironmentVariable("CDK_DEPLOY_ACCOUNT") ??
+        //             System.Environment.GetEnvironmentVariable("CDK_DEFAULT_ACCOUNT"),
+        //         Region = region ??
+        //             System.Environment.GetEnvironmentVariable("CDK_DEPLOY_REGION") ??
+        //             System.Environment.GetEnvironmentVariable("CDK_DEFAULT_REGION")
+        //     };
+        // }
     }
 }

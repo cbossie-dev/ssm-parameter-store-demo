@@ -1,0 +1,41 @@
+name: Deploy SSM Parameter Store Demo with AppRunner
+permissions:
+  id-token: write
+  contents: read
+on: workflow_dispatch
+jobs:
+  create-ecr-repo-dev:
+    name: Create Development Repo
+    uses: ./.github/workflows/create-repo.yml
+    with:
+      environment: Development
+  deploy-cdk-dev:
+    name: Deploy CDK Dev
+    uses: ./.github/workflows/deploy-infra.yml
+    needs: create-ecr-repo-dev
+    with:
+      environment: Development
+  create-ecr-repo-qa:
+   name: Create QA Repo
+   uses: ./.github/workflows/create-repo.yml
+   needs: deploy-cdk-dev
+   with:
+     environment: QA
+  deploy-cdk-qa:
+    name: Deploy CDK QA
+    uses: ./.github/workflows/deploy-infra.yml
+    needs: create-ecr-repo-qa
+    with:
+      environment: QA
+  create-ecr-repo-prod:
+    name: Create Prod Repo
+    needs: deploy-cdk-qa
+    uses: ./.github/workflows/create-repo.yml
+    with:
+      environment: Prod        
+  deploy-cdk-prod:
+    name: Deploy CDK Prod
+    uses: ./.github/workflows/deploy-infra.yml
+    needs: create-ecr-repo-prod
+    with:
+      environment: Prod
