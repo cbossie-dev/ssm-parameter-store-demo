@@ -1,10 +1,10 @@
-name: Deploy SSM Parameter Store Demo with AppRunner (DEV ONLY)
+name: DEV-DeployAppRunner
 permissions:
   id-token: write
   contents: read
 on: 
   workflow_run:
-    workflows: [Deploy Containerized .NET APP (DEV ONLY)]
+    workflows: [DEV-Deploy .NET Container]
     types: [completed]
 jobs:
   deploy-cdk-dev:

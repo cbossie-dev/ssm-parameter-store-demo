@@ -1,4 +1,4 @@
-name: Deploy Containerized .NET APP (DEV ONLY)
+name: DEV-Deploy .NET Container
 permissions:
   id-token: write
   contents: read
