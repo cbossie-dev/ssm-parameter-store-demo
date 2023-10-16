@@ -52,7 +52,7 @@ When you run "cdk deploy" you will need to ensure that you have permissions to d
 The ASP.NET Core 6.0 Web Application includes functionality that will use the [.NET Core configuration provider for AWS Systems Manager](https://aws.amazon.com/blogs/developer/net-core-configuration-provider-for-aws-systems-manager/) and the [AWS Secrets Manager Caching client for .NET](https://github.com/aws/aws-secretsmanager-caching-net) in the same solution.
 
 To configure the application you can modify the `appsettings.json` and the `appsetting.Development.json` file(s) to make sure ASP.NET Core is pointing at the right AWS resources. An example file (only the relevant part is shown). If you leave these values as defaults, they will match up with the default configuraton of the CDK project.
-
+1243
 ```json
 "DemoConfig": {
     "environment": "stg",
