@@ -1,0 +1,13 @@
+name: Deploy Containerized .NET APP
+permissions:
+  id-token: write
+  contents: read
+on:
+  push:
+    branches: ['main']
+jobs:
+  create-ecr-repo-dev:
+    name: Create Development Repo
+    uses: ./.github/workflows/create-repo.yml
+    with:
+      environment: Development
