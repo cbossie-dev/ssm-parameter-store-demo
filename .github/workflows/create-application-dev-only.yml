@@ -1,0 +1,14 @@
+name: Deploy SSM Parameter Store Demo with AppRunner (DEV ONLY)
+permissions:
+  id-token: write
+  contents: read
+on: 
+  workflow_run:
+    workflows: [Deploy Containerized .NET APP (DEV ONLY)]
+    types: [completed]
+jobs:
+  deploy-cdk-dev:
+    name: Deploy CDK Dev
+    uses: ./.github/workflows/deploy-infra.yml
+    with:
+      environment: Development
