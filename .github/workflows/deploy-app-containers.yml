@@ -1,4 +1,4 @@
-name: Build and Deploy Containerized .NET APP to ECR
+name: (MAIN) Create Repo and Deploy App to All Env
 permissions:
   id-token: write
   contents: read
