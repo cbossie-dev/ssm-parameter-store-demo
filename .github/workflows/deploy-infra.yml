@@ -1,4 +1,4 @@
-name: Deploy CDK Stack
+name: (SUB)Deploy CDK Stack to a Single Environment
 permissions:
   id-token: write
   contents: read
