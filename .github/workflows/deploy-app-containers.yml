@@ -1,4 +1,4 @@
-name: Deploy Containerized .NET APP
+name: Build and Deploy Containerized .NET APP to ECR
 permissions:
   id-token: write
   contents: read
