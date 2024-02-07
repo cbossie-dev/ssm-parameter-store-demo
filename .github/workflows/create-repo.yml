@@ -1,4 +1,4 @@
-name: (INIT)Create Repo and Deploy App to a Single Environment
+name: Create Repo and Deploy App to a Single Environment
 permissions:
   id-token: write
   contents: read
