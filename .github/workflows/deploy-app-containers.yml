@@ -1,4 +1,4 @@
-name: (MAIN) Create Repo and Deploy App to All Env
+name: (DEPRECATED) Create Repo and Deploy App to All Env
 permissions:
   id-token: write
   contents: read
