@@ -1,4 +1,4 @@
-name: Deploy SSM Parameter Store Demo with AppRunner
+name: (MAIN)Deploy SSM Parameter Store Demo with AppRunner
 permissions:
   id-token: write
   contents: read
