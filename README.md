@@ -1,4 +1,4 @@
-# SSM Parameter and Secrets Manager Demo - ASP.NET Core 2
+# SSM Parameter and Secrets Manager Demo - ASP.NET Core 2ee
 ## Purpose
 This repository shows a simple example of how to use AWS Systems Manager Parameter Store and AWS Secrets Manager in an ASP.NET Core 6.0 web app.
 
